@@ -1,0 +1,159 @@
+link list may be all concept
+c++
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int meta;
+    struct node *link;
+};
+     struct node*  creatNode(int k){
+         struct node *temp =(struct node*) malloc(sizeof(struct node));
+        temp->meta=k;
+        temp->link=NULL;
+        return temp;
+    }
+    void printlist(struct node* head){
+        while(head != NULL){
+            printf("%d",head->meta);
+        if(head->link!=NULL){
+            printf("->");
+        }
+        head = head->link;
+      }
+      printf("->NULL\n");
+    }
+    int serchElement(struct node* ld,int key){
+        struct node* curent = ld;
+        int postion =1;
+        while(curent != NULL){
+            if(curent->meta == key){
+               return postion;
+            }
+            curent = curent->link;
+            postion++;
+        }
+        return -1;
+    }
+    void addnode(struct node* head,int add,int key){
+        struct node* current = head;
+        
+        while(current != NULL){
+            if(current->meta == key){
+                struct node* newNode=creatNode(add);
+                newNode->link=current->link;
+                current->link= newNode;
+                return;
+            }
+             current = current->link;
+        }
+        printf("Element %d not found in the list.\n",key);
+    }
+     void addElementbyPostion(struct node** ld,int add,int postion){
+        struct node *newNode = creatNode(add);
+
+        if(postion ==1){
+            newNode->link =*ld;
+            *ld = newNode;
+            return;
+        }
+
+        struct node *current = *ld;
+        for(int i = 1;i < postion -1 && current !=NULL;i++){
+            current = current ->link;
+        }
+
+        if(current == NULL){
+            printf("Postion out of rang\n");
+            free(newNode);
+            return;
+        }
+
+        newNode->link =current->link;
+        current->link =newNode;
+     }
+     void deletingElementbyPostion(struct node** ld,int postion){
+            if(*ld ==NULL){
+                printf("List is Empty\n");
+                return;
+            }
+
+            struct node* temp = *ld;
+            if(postion == 1){
+                *ld = temp->link;
+                free(temp);
+                return;
+            }
+
+            for(int i=0;i<postion-1 && temp!=NULL;i++){
+                temp = temp->link;
+            }
+
+            if(temp== NULL||temp->link == NULL){
+                printf("postion out of range \n");
+            }
+
+            struct node *link =temp->link->link;
+            free(temp->link);
+            temp->link=link;
+     }
+     void apending(struct node** ld,int t){
+        struct node *newNode =creatNode(t);
+        if(*ld ==NULL){
+            *ld =newNode;
+            return;
+        }
+
+        struct node *current = *ld;
+
+        while (current->link != NULL)
+        {
+            current =current ->link;
+        }
+        current -> link =newNode;
+     }
+    int main(){
+        int n=4; 
+        struct node *ld =NULL,*temp=NULL;
+
+        for(int i=1;i<=n;i++){
+            struct node *newnode =creatNode(i);
+            if(ld==NULL){
+                ld=newnode;
+            }
+            else{
+                temp->link=newnode;
+            }
+            temp = newnode;
+        }
+
+        printlist(ld);
+        int key = 2;
+        int add =5;
+
+        int postion =serchElement( ld, key);
+
+        addnode( ld,add,key);
+
+        printlist(ld);
+
+        addElementbyPostion(&ld,add,postion-1);
+
+        printlist(ld);
+
+        deletingElementbyPostion(&ld,postion);
+
+        if(postion==-1){
+            printf("element is not found \n");
+        }
+        else{
+            printf("element postion is %d \n",postion);
+        }
+        printlist(ld);
+
+        apending(ld,6);
+
+        printlist(ld);
+
+        return 0;
+    }
