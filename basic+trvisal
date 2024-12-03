@@ -1,5 +1,5 @@
 link list may be all concept
-c++
+c
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -37,7 +37,7 @@ struct node{
     }
     void addnode(struct node* head,int add,int key){
         struct node* current = head;
-        
+
         while(current != NULL){
             if(current->meta == key){
                 struct node* newNode=creatNode(add);
@@ -151,7 +151,7 @@ struct node{
         }
         printlist(ld);
 
-        apending(ld,6);
+        apending(&ld,6);
 
         printlist(ld);
 
